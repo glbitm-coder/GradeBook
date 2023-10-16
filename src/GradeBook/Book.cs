@@ -4,11 +4,11 @@ namespace GradeBook
      public class Book
     {
         private List<double> grades;    
-        private string name;            
+        public string Name;            
         public Book(string name)    // 3
         {
             grades = new List<double>();    // 4
-            this.name = name;               // 5
+            this.Name = name;               // 5
         }
         public void AddGrade(double grade)
         {
