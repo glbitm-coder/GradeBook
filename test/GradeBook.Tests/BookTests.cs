@@ -18,5 +18,6 @@ public class BookTests
         Assert.Equal(85.6, result.Average, 1);
         Assert.Equal(90.5, result.High);
         Assert.Equal(77.3, result.Low);
+        Assert.Equal('B', result.Letter);
     }
 }
