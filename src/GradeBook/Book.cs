@@ -3,15 +3,20 @@ namespace GradeBook
 {
      public class Book
     {
-        private List<double> grades;    
-        public string Name;            
-        public Book(string name)    // 3
+        private List<double> grades;   
+
+        public string Name
         {
-            grades = new List<double>();    // 4
-            this.Name = name;               // 5
+            get; set;
+        }         
+ 
+        public Book(string name)  
+        {
+            grades = new List<double>();   
+            this.Name = name;      
         }
 
-        public void AddLetterGrade(char letter)
+        public void AddGrade(char letter)
         {
             switch(letter)
             {
