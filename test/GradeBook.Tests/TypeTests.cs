@@ -1,8 +1,34 @@
 
 namespace GradeBook.Tests;
 
+public delegate string WriteLogDelegate(string logMessage); // 1
 public class TypeTests
 {
+    int count = 0;
+
+    [Fact]
+    public void WriteLogDelegateCanPointToMethod()
+    {
+        WriteLogDelegate log = ReturnMessage;                         
+        
+        log += ReturnMessage;        
+        log += IncrementCount;                      
+
+        var result = log("Hello!");                         
+        Assert.Equal(3, count);    
+        Assert.Equal("hello!", result);      
+    }
+    string IncrementCount(string message)
+    {
+        ++count;
+        return message.ToLower();
+    }
+    string ReturnMessage(string mesage)
+    {
+        ++count;
+        return mesage;
+    }
+
     [Fact]
     public void BookCalculatesAnAverageGrade()
     {
