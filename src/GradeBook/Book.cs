@@ -2,7 +2,51 @@
 namespace GradeBook
 {
     public delegate void GradeAddedDelegate(object sender, EventArgs args);
-     public class Book
+
+    public class NamedObject
+    {
+        public string Name
+        {
+            get;
+            set;
+        }
+        public NamedObject(string name)
+        {
+            Name = name;
+        }
+
+    }
+
+    public interface IBook
+    {
+        void AddGrade(double grade);
+        Statistics GetStatistics();
+        string Name 
+        {
+            get; 
+        }
+        event GradeAddedDelegate GradeAdded;
+    }
+
+    public abstract class Book : NamedObject, IBook
+    {
+        protected Book(string name) : base(name)
+        {
+
+        }
+
+        public virtual event GradeAddedDelegate GradeAdded;
+
+        public abstract void AddGrade(double grade);
+
+        public virtual Statistics GetStatistics()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+     public class InMemoryBook : Book, IBook
     {
         private List<double> grades;   
 
@@ -11,7 +55,7 @@ namespace GradeBook
             get; set;
         }         
  
-        public Book(string name)  
+        public InMemoryBook(string name)  : base(name)
         {
             grades = new List<double>();   
             this.Name = name;      
@@ -39,14 +83,14 @@ namespace GradeBook
             }
         }
 
-        public void AddGrade(double grade)
+        public override void AddGrade(double grade)
         {
             if(grade <= 100 && grade >= 0)
             {
                 grades.Add(grade);
-                if(GradeAdded != null)
+                if(GradeAdded != null)                      //1
                 {
-                    GradeAdded(this, new EventArgs());
+                    GradeAdded(this, new EventArgs());      //2
                 }
             }          
             else
@@ -55,9 +99,9 @@ namespace GradeBook
             }
         }
 
-        public event GradeAddedDelegate GradeAdded;
+        public override event GradeAddedDelegate GradeAdded;
          
-        public Statistics GetStatistics()
+        public override Statistics GetStatistics()
         {
             var result = new Statistics();
             var sum = 0.0;
